@@ -9,10 +9,15 @@ app.use(cors());
 const MAX_favoriteUsers = 5;
 
 let favoriteUsers = [];
+let server;
 
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
+});
+
+afterAll((done) => {
+    server.close(done);
 });
 
 app.post('/users', async (req, res) => {
@@ -90,3 +95,5 @@ app.patch('/users/:username/toggle-star', (req, res) => {
 
     res.sendStatus(204);
 });
+
+module.exports.favoriteUsers = favoriteUsers;
