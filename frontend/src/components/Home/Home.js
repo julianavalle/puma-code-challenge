@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { fetchFavoriteUsers, addUser, deleteUser, toggleStar } from '../../router.js';
 import UserCard from '../UserCard/UserCard';
 import './Home.css';
@@ -7,6 +8,10 @@ const Home = () => {
     const [users, setUsers] = useState([]);
     const [newUser, setNewUser] = useState('');
     const [error, setError] = useState('');
+
+    const closeError = () => {
+        setError('');
+    };
 
     useEffect(() => {
         const getUsers = async () => {
@@ -25,13 +30,18 @@ const Home = () => {
         setError('');
 
         try {
-            const addedUser = await addUser(newUser);
+            const response = await axios.post('/users', { username: newUser });
+            const addedUser = response.data;
 
             setUsers((prevUsers) => [...prevUsers, addedUser]);
             setNewUser('');
         } catch (error) {
-            setError('Erro ao adicionar usuário favorito.');
-            console.error('Error adding favorite user:', error);
+            if (error.response) {
+                const { data } = error.response;
+                setError(data.error);
+            } else {
+                setError('Erro ao adicionar usuário favorito.');
+            }
         }
     };
 
@@ -72,7 +82,18 @@ const Home = () => {
     return (
         <div>
             <h1 className="title">Usuários Favoritos GitHub</h1>
-            {error && <p>{error}</p>}
+
+            {
+                error && (
+                    <div className="error-popup">
+                        <p>{error}</p>
+                        <button className="close-button" onClick={closeError}>
+                            &times;
+                        </button>
+                    </div>
+                )
+            }
+
             <div className="add-user-container">
                 <div className="add-user-box">
                     <input
