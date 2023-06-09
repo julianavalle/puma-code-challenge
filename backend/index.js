@@ -16,9 +16,6 @@ app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
 
-afterAll((done) => {
-    server.close(done);
-});
 
 app.post('/users', async (req, res) => {
     const { username } = req.body;
