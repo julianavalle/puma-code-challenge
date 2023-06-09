@@ -50,6 +50,22 @@ npm install
 npm start
 ```
 
+### 4. Testes Unitários Automatizados:
+4.1. Navegue até a pasta do backend:
+``` shell
+puma-code-challenge/backend
+```
+
+4.2. Instale as dependências do projeto:
+``` shell
+npm install
+```
+
+4.3 Rode o suite de testes:
+``` shell
+npm test
+```
+
 ## Uso
 * Adicione até 5 usuários válidos do Github.
 
