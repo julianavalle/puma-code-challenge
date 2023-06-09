@@ -12,7 +12,8 @@ let favoriteUsers = [];
 let server;
 
 const PORT = 3000;
-app.listen(PORT, () => {
+
+server = app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
 
@@ -93,4 +94,7 @@ app.patch('/users/:username/toggle-star', (req, res) => {
     res.sendStatus(204);
 });
 
-module.exports.favoriteUsers = favoriteUsers;
+module.exports = {
+    favoriteUsers,
+    server
+};
