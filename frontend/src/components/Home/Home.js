@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { fetchFavoriteUsers, addUser, deleteUser, toggleStar } from '../router.js';
+import { fetchFavoriteUsers, addUser, deleteUser, toggleStar } from '../../router.js';
+import UserCard from '../UserCard/UserCard';
+import './Home.css';
 
 const Home = () => {
     const [users, setUsers] = useState([]);
@@ -69,31 +71,31 @@ const Home = () => {
 
     return (
         <div>
-            <h1>Usuários Favoritos</h1>
+            <h1 className="title">Usuários Favoritos GitHub</h1>
             {error && <p>{error}</p>}
-            <div>
-                <input
-                    type="text"
-                    value={newUser}
-                    onChange={(e) => setNewUser(e.target.value)}
-                    placeholder="Digite o nome de usuário"
-                />
-                <button onClick={handleAddUser}>Adicionar</button>
+            <div className="add-user-container">
+                <div className="add-user-box">
+                    <input
+                        className="add-user-input"
+                        type="text"
+                        value={newUser}
+                        onChange={(e) => setNewUser(e.target.value)}
+                        placeholder="Digite o nome de usuário"
+                    />
+                    <button className="add-user-button" onClick={handleAddUser}>Adicionar</button>
+                </div>
             </div>
-            <ul>
+
+            <div className="user-list">
                 {users.map((user) => (
-                    <li key={user.username}>
-                        <img src={user.avatar} alt={`Avatar de ${user.username}`} />
-                        <a href={user.url} target="_blank" rel="noopener noreferrer">
-                            {user.name} (@{user.username})
-                        </a>
-                        <button onClick={() => handleDeleteUser(user.username)}>Excluir</button>
-                        <button onClick={() => handleToggleStar(user.username)}>
-                            {user.starred ? 'Desmarcar Estrela' : 'Marcar Estrela'}
-                        </button>
-                    </li>
+                    <UserCard
+                        key={user.username}
+                        user={user}
+                        onDeleteUser={handleDeleteUser}
+                        onToggleStar={handleToggleStar}
+                    />
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };
